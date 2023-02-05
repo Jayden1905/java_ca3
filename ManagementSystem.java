@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.Scanner;
 
 public class ManagementSystem {
-
     private ArrayList<AdminAccount> adminAccountList;
     private ArrayList<Rental> rentalList;
     private ArrayList<UserAccount> userAccountList;
