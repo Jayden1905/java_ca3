@@ -6,7 +6,7 @@ public class UserAccount {
     private String lastName;
     private String createdDate;
     private ArrayList<String> genrePreferences;
-    private ArrayList<Rental> rentalList;
+    private ArrayList<Rental> rentalList = new ArrayList<Rental>();
 
     public UserAccount(int userId, String firstName, String lastName, String createdDate) {
         this.userId = userId;
@@ -65,7 +65,7 @@ public class UserAccount {
     }
 
     public void addRental(Rental rental) {
-        rentalList.add(rental);
+        this.rentalList.add(rental);
     }
 
     public ArrayList<Rental> getRentalList() {

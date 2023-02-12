@@ -48,8 +48,11 @@ public class ManagementSystem {
 
         Rental rental1 = new Rental(1, "01/02/2023", user1);
         Rental rental2 = new Rental(2, "01/02/2023", user1);
+        user1.addRental(rental1);
         Rental rental3 = new Rental(3, "01/02/2023", user2);
+        user2.addRental(rental3);
         Rental rental4 = new Rental(4, "01/04/2023", user3);
+        user3.addRental(rental4);
 
 
         ManagementSystem library = new ManagementSystem();
@@ -108,7 +111,8 @@ public class ManagementSystem {
                     System.out.println("3. Books");
                     System.out.println("4. User Accounts");
                     System.out.println("5. List all user rental records");
-                    System.out.println("6. Exit");
+                    System.out.println("6. Top users that rent most books");
+                    System.out.println("7. Logout");
                     System.out.print("Enter your choice: ");
                     int choice = scanner.nextInt();
                     switch (choice) {
@@ -116,7 +120,8 @@ public class ManagementSystem {
                         case 3 -> manageBooks();
                         case 4 -> manageUserAccounts();
                         case 5 -> showAllRentalRecords();
-                        case 6 -> {
+                        case 6 -> showTopUsersThatRentMostBooks();
+                        case 7 -> {
                             System.out.println("Signing out...");
                             run = false;
                         }
@@ -199,14 +204,18 @@ public class ManagementSystem {
             System.out.println("1. Add book");
             System.out.println("2. Delete book");
             System.out.println("3. Show all books");
-            System.out.println("4. Exit");
+            System.out.println("4. Show most expensive books");
+            System.out.println("5. Show cheapest books");
+            System.out.println("6. Exit");
             System.out.print("Enter your choice: ");
             int choice = scanner.nextInt();
             switch (choice) {
                 case 1 -> addBook();
                 case 2 -> deleteBook();
                 case 3 -> showAllBooks();
-                case 4 -> {
+                case 4 -> mostExpensiveBooks();
+                case 5 -> leastExpensiveBooks();
+                case 6 -> {
                     System.out.println("Exiting...");
                     run = false;
                     scanner.nextLine();
@@ -249,6 +258,34 @@ public class ManagementSystem {
     private void showAllBooks() {
         for (Book book : bookList) {
             System.out.println(book.getBookName() + "(" + book.getBookGenre() + ")");
+        }
+    }
+
+    private void mostExpensiveBooks() {
+        double maxPrice = 0;
+        for (Book book : bookList) {
+            if (book.getBookRentalPrice() > maxPrice) {
+                maxPrice = book.getBookRentalPrice();
+            }
+        }
+        for (Book book : bookList) {
+            if (book.getBookRentalPrice() == maxPrice) {
+                System.out.println(book.getBookName() + "(" + book.getBookRentalPrice() + ")");
+            }
+        }
+    }
+
+    private void leastExpensiveBooks() {
+        double minPrice = 10;
+        for (Book book : bookList) {
+            if (book.getBookRentalPrice() < minPrice) {
+                minPrice = book.getBookRentalPrice();
+            }
+        }
+        for (Book book : bookList) {
+            if (book.getBookRentalPrice() == minPrice) {
+                System.out.println(book.getBookName() + "(" + book.getBookRentalPrice() + ")");
+            }
         }
     }
 
@@ -300,6 +337,20 @@ public class ManagementSystem {
             }
         }
         System.out.println("User account not found.");
+    }
+
+    private void showTopUsersThatRentMostBooks() {
+        int max = 0;
+        for (UserAccount user : userAccountList) {
+            if (user.getRentalList().size() > max) {
+                max = user.getRentalList().size();
+            }
+        }
+        for (UserAccount user : userAccountList) {
+            if (user.getRentalList().size() == max) {
+                System.out.println(user.getFirstName() + " " + user.getLastName());
+            }
+        }
     }
 
     private void showAllRentalRecords() {
