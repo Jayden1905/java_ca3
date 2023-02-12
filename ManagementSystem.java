@@ -45,6 +45,9 @@ public class ManagementSystem {
         UserAccount user1 = new UserAccount(1, "aung nyan", "paing", "01/02/2023");
         UserAccount user2 = new UserAccount(2, "ryan", "clone", "06/02/2023");
         UserAccount user3 = new UserAccount(3, "rose", "smith", "04/012/2022");
+        user1.addGenre("action");
+        user2.addGenre("romance");
+        user3.addGenre("horror");
 
         Rental rental1 = new Rental(1, "01/02/2023", user1);
         Rental rental2 = new Rental(2, "01/02/2023", user1);
@@ -112,7 +115,8 @@ public class ManagementSystem {
                     System.out.println("4. User Accounts");
                     System.out.println("5. List all user rental records");
                     System.out.println("6. Top users that rent most books");
-                    System.out.println("7. Logout");
+                    System.out.println("7. Show books matching user genre preference");
+                    System.out.println("8. Sign out");
                     System.out.print("Enter your choice: ");
                     int choice = scanner.nextInt();
                     switch (choice) {
@@ -121,7 +125,8 @@ public class ManagementSystem {
                         case 4 -> manageUserAccounts();
                         case 5 -> showAllRentalRecords();
                         case 6 -> showTopUsersThatRentMostBooks();
-                        case 7 -> {
+                        case 7 -> showBooksMatchingUserGenrePreference();
+                        case 8 -> {
                             System.out.println("Signing out...");
                             run = false;
                         }
@@ -351,6 +356,23 @@ public class ManagementSystem {
                 System.out.println(user.getFirstName() + " " + user.getLastName());
             }
         }
+    }
+
+    private void showBooksMatchingUserGenrePreference() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter user's last name: ");
+        String lastName = scanner.nextLine();
+        for (UserAccount user : userAccountList) {
+            if (user.getLastName().equals(lastName)) {
+                for (Book book : bookList) {
+                    if (user.getGenrePreferences().contains(book.getBookGenre())) {
+                        System.out.println(user.getFirstName() + " " + user.getLastName() + "(" + book.getBookName() + ")");
+                    }
+                }
+                return;
+            }
+        }
+        System.out.println("User not found.");
     }
 
     private void showAllRentalRecords() {
